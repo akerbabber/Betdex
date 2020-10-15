@@ -1,7 +1,7 @@
-pragma solidity >=0.6.0 <0.7.0;
+pragma solidity ^0.5.2;
 
 import "@nomiclabs/buidler/console.sol";
-
+import "@gnosis.pm/conditional-tokens-contracts/contracts/ConditionalTokens.sol";
 contract YourContract {
 
   event SetPurpose(address sender, string purpose);
