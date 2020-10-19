@@ -1605,6 +1605,13 @@
     "@ethersproject/properties" "^5.0.0"
     "@ethersproject/strings" "^5.0.0"
 
+"@gnosis.pm/conditional-tokens-contracts@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/conditional-tokens-contracts/-/conditional-tokens-contracts-1.0.3.tgz#6d96017e11363165190d34baf6157e1c0c993692"
+  integrity sha512-tsGh+tiCb06UCUg3F8N5Gpo/MTsdMLQ7Wbu2AiWGaj9bga9rWgnu2/QVtLY3hneFdrSAjzlu/eFmhQt+5b7kSA==
+  dependencies:
+    openzeppelin-solidity "2.3.0"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -12977,6 +12984,11 @@ open@^7.0.2:
   dependencies:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
+
+openzeppelin-solidity@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-2.3.0.tgz#1ab7b4cc3782a5472ed61eb740c56a8bfdd74119"
+  integrity sha512-QYeiPLvB1oSbDt6lDQvvpx7k8ODczvE474hb2kLXZBPKMsxKT1WxTCHBYrCU7kS7hfAku4DcJ0jqOyL+jvjwQw==
 
 opn@^5.5.0:
   version "5.5.0"
