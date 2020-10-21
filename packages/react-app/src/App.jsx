@@ -152,11 +152,13 @@ function App() {
                 this <Contract/> component will automatically parse your ABI
                 and give you a form to interact with it locally
             */}
+            
             <Contract
-              name="YourContract"
+              name="ConditionalTokens"
               signer={userProvider.getSigner()}
               provider={localProvider}
               address={address}
+              show={["prepareCondition"]}
               blockExplorer={blockExplorer}
             />
           </Route>
