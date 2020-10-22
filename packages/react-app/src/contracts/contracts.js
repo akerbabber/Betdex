@@ -1,1 +1,1 @@
-module.exports = ["ConditionalTokens","YourContract"];
+module.exports = ["ConditionalTokens","GasOracle","YourContract"];
