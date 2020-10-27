@@ -3,6 +3,10 @@ const { utils } = require("ethers");
 const fs = require("fs");
 
 usePlugin("@nomiclabs/buidler-waffle");
+usePlugin("@nomiclabs/buidler-truffle5");
+
+module.exports = {};
+
 
 const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 
