@@ -1,8 +1,6 @@
 const { ethers } = require("@nomiclabs/buidler");
 const { use, expect } = require("chai");
 const { solidity } = require("ethereum-waffle");
-require("@gnosis.pm/conditional-tokens-contracts/test/test-conditional-tokens");
-
 
 use(solidity);
 
