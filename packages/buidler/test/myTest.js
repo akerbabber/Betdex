@@ -1,7 +1,7 @@
 const { ethers } = require("@nomiclabs/buidler");
 const { use, expect } = require("chai");
 const { solidity } = require("ethereum-waffle");
-const { BN, expectEvent, expectRevert } = require("openzeppelin-test-helpers");
+const { BN, expectEvent, expectRevert } = require("@openzeppelin/test-helpers");
 // const testcases = require("@ethersproject/testcases");
 const web3 = require("web3");
 
@@ -26,7 +26,6 @@ describe("My Dapp", function () {
   ] = [];
   // let oracle;
 
-
   describe("prepareCondition", function () {
     /* beforeEach("YourContract", async function () {
       const YourContract = await ethers.getContractFactory("ConditionalTokens");
@@ -46,10 +45,10 @@ describe("My Dapp", function () {
         counterparty,
       ] = await ethers.getSigners();
     });
-    before("Should deploy my SmartContractWallet", async function () {
+    before("Should deploy ConditionalTOkens", async function () {
       CTartifacts = await ethers.getContractFactory("ConditionalTokens");
     });
-    beforeEach("Should deploy my SmartContractWallet", async function () {
+    before("Should deploy my SmartContractWallet", async function () {
       // CTartifacts = await ethers.getContractFactory("ConditionalTokens");
       ConditionalTokens = await CTartifacts.deploy();
       await ConditionalTokens.deployed();
@@ -82,6 +81,8 @@ describe("My Dapp", function () {
     context("with valid parameters", async function () {
       const questionId = randomHex(32);
       const outcomeSlotCount = ethers.BigNumber.from(256);
+      let eventProvider;
+      let receipt;
       before(async function () {
         await ConditionalTokens.deployed();
       });
@@ -93,34 +94,38 @@ describe("My Dapp", function () {
         );
       });
 
-      beforeEach(async function () {
-        ({ logs: this.logs } = await ConditionalTokens.prepareCondition(
+      before(async function () {
+        eventProvider = await ConditionalTokens.prepareCondition(
           oracle.getAddress(),
           questionId,
           outcomeSlotCount
-        ));
+        );
+        receipt = await eventProvider.hash;
       });
 
       it("should emit an ConditionPreparation event", async function () {
         const oracleAddr = oracle.getAddress();
-        expectEvent.inLogs(this.logs, "ConditionPreparation", {
-          conditionId,
-          oracleAddr,
-          questionId,
-          outcomeSlotCount,
-        });
+        console.log(receipt);
+        expect(
+          ConditionalTokens.prepareCondition(
+            oracle.getAddress(),
+            questionId,
+            outcomeSlotCount
+          )
+        )
+          .to.emit(ConditionalTokens, "ConditionPreparation")
+          .withArgs(conditionId, oracleAddr, questionId, outcomeSlotCount);
       });
 
       it("should make outcome slot count available via getOutcomeSlotCount", async function () {
-        (
-          await ConditionalTokens.getOutcomeSlotCount(conditionId)
-        ).should.be.bignumber.equal(outcomeSlotCount);
+        const count = await ConditionalTokens.getOutcomeSlotCount(conditionId);
+        count.should.equal(outcomeSlotCount);
       });
 
       it("should leave payout denominator unset", async function () {
-        (
+        expect(
           await ConditionalTokens.payoutDenominator(conditionId)
-        ).should.be.bignumber.equal("0");
+        ).to.be.equal("0");
       });
 
       it("should not be able to prepare the same condition more than once", async function () {
