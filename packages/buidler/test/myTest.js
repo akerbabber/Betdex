@@ -25,6 +25,7 @@ describe("My Dapp", function () {
     counterparty,
   ] = [];
   // let oracle;
+  let oracleAddr;
 
   describe("prepareCondition", function () {
     /* beforeEach("YourContract", async function () {
@@ -44,6 +45,7 @@ describe("My Dapp", function () {
         safeExecutor,
         counterparty,
       ] = await ethers.getSigners();
+      oracleAddr = await oracle.getAddress();
     });
     before("Should deploy ConditionalTOkens", async function () {
       CTartifacts = await ethers.getContractFactory("ConditionalTokens");
@@ -58,7 +60,7 @@ describe("My Dapp", function () {
       const outcomeSlotCount = 0;
       await expect(
         ConditionalTokens.prepareCondition(
-          oracle.getAddress(),
+          oracleAddr,
           questionId,
           outcomeSlotCount
         ),
@@ -70,7 +72,7 @@ describe("My Dapp", function () {
       const outcomeSlotCount = 1;
       await expect(
         ConditionalTokens.prepareCondition(
-          oracle.getAddress(),
+          oracleAddr,
           questionId,
           outcomeSlotCount
         ),
@@ -88,22 +90,25 @@ describe("My Dapp", function () {
       });
       before("should get ConditionId", async function () {
         conditionId = await ConditionalTokens.getConditionId(
-          oracle.getAddress(),
+          oracleAddr,
           questionId,
           outcomeSlotCount
         );
       });
 
-      before(async function () {
-        eventProvider = await ConditionalTokens.prepareCondition(
-          oracle.getAddress(),
-          questionId,
-          outcomeSlotCount
-        );
-        receipt = await eventProvider.hash;
+      before("should emit event", async function () {
+        await expect(
+          ConditionalTokens.prepareCondition(
+            oracleAddr,
+            questionId,
+            outcomeSlotCount
+          )
+        )
+          .to.emit(ConditionalTokens, "ConditionPreparation")
+          .withArgs(conditionId, oracleAddr, questionId, outcomeSlotCount);
       });
 
-      it("should emit an ConditionPreparation event", async function () {
+      /*  it("should emit an ConditionPreparation event", async function () {
         const oracleAddr = oracle.getAddress();
         console.log(receipt);
         expect(
@@ -115,11 +120,12 @@ describe("My Dapp", function () {
         )
           .to.emit(ConditionalTokens, "ConditionPreparation")
           .withArgs(conditionId, oracleAddr, questionId, outcomeSlotCount);
-      });
+      }); */
 
       it("should make outcome slot count available via getOutcomeSlotCount", async function () {
-        const count = await ConditionalTokens.getOutcomeSlotCount(conditionId);
-        count.should.equal(outcomeSlotCount);
+        expect(
+          await ConditionalTokens.getOutcomeSlotCount(conditionId)
+        ).to.equal(outcomeSlotCount);
       });
 
       it("should leave payout denominator unset", async function () {
@@ -131,7 +137,7 @@ describe("My Dapp", function () {
       it("should not be able to prepare the same condition more than once", async function () {
         await expect(
           ConditionalTokens.prepareCondition(
-            oracle.getAddress(),
+            oracleAddr,
             questionId,
             outcomeSlotCount
           ),
