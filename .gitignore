@@ -133,8 +133,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# readthedocs
-!docs/build/
-
 .idea
 >>>>>>> e56b6758d8de3e5e66327d4c9cd5428217404be3
