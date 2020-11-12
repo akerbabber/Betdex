@@ -4,7 +4,7 @@
 #
 # This file does only contain a selection of the most common options. For a
 # full list see the documentation:
-# http://www.sphinx-doc.org/en/master/config
+# http://www.sphinx-doc.org/en/stable/config
 
 # -- Path setup --------------------------------------------------------------
 
@@ -12,22 +12,25 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = u'Betdex'
-copyright = u'2020, Maurizio Murru'
-author = u'Maurizio Murru'
+project = 'Conditional Tokens'
+copyright = '2018, Gnosis Ltd'
+author = 'Gnosis'
 
-# The short X.Y version
-version = u''
 # The full version, including alpha/beta/rc tags
-release = u''
-
+import json
+with open(os.path.join(os.path.dirname(__file__), '..', 'package.json')) as package_json_file:
+    release = json.load(package_json_file)['version']
+# The short X.Y version
+(major, _, rest_of_version) = release.partition('.')
+(minor, _, _) = rest_of_version.partition('.')
+version = major + '.' + minor
 
 # -- General configuration ---------------------------------------------------
 
@@ -40,8 +43,7 @@ release = u''
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.githubpages',
+    'sphinxcontrib.soliditydomain',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -65,11 +67,11 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
+# This pattern also affects html_static_path and html_extra_path .
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+pygments_style = 'sphinx'
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -104,7 +106,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Betdexdoc'
+htmlhelp_basename = 'ConditionalTokensdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -131,8 +133,10 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Betdex.tex', u'Betdex Documentation',
-     u'Maurizio Murru', 'manual'),
+    (master_doc,
+     'ConditionalTokens.tex',
+     'Conditional Tokens Documentation',
+     'Gnosis', 'manual'),
 ]
 
 
@@ -141,7 +145,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'betdex', u'Betdex Documentation',
+    (master_doc, 'conditionaltokens',
+     'Conditional Tokens Documentation',
      [author], 1)
 ]
 
@@ -152,8 +157,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Betdex', u'Betdex Documentation',
-     author, 'Betdex', 'One line description of project.',
+    (master_doc, 'ConditionalTokens',
+     'Conditional Tokens Documentation',
+     author, 'ConditionalTokens',
+     'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -162,6 +169,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = project
+epub_author = author
+epub_publisher = author
+epub_copyright = copyright
 
 # The unique identifier of the text. This can be a ISBN number
 # or the project homepage.
